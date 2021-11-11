@@ -1,7 +1,7 @@
 class CipherAtbash {
     constructor(alphabet) {
         this.alphabet = alphabet;
-        console.log(`init CipherAtbash alphabet = ${this.alphabet.uppercase}`);
+        console.log(`init CipherAtbash alphabet`);
     }
 
     encode(source) {

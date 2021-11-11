@@ -7,7 +7,7 @@ const json = JSON.parse(
 )
 
 // config
-const CAESAR_SHIFT = 1;
+const CAESAR_SHIFT = 23;
 const ROT8_SHIFT = 8;
 
 console.log('app is started');
@@ -17,14 +17,18 @@ const CryptographerCaesar = new CipherShift(alphabet, CAESAR_SHIFT);
 const CryptographerRot8 = new CipherShift(alphabet, ROT8_SHIFT);
 const CryptographerAtbash = new CipherAtbash(alphabet);
 
-CryptographerCaesar.encode('test1');
-CryptographerRot8.encode('test2');
-CryptographerAtbash.encode('test3');
 
+const inputText = json.en.uppercase.join('');
+const ceasarEncoded = CryptographerCaesar.encode(inputText);
+console.log (`ENCODED CEASAR = ${ceasarEncoded}`);
+const ceasarDecoded = CryptographerCaesar.decode(ceasarEncoded);
+console.log (`DECODED CEASAR = ${ceasarDecoded}`);
 
-CryptographerCaesar.decode('test4');
-CryptographerRot8.decode('test5');
-CryptographerAtbash.decode('test6');
+// CryptographerRot8.encode('test2');
+// CryptographerAtbash.encode('test3');
+
+// CryptographerRot8.decode('test5');
+// CryptographerAtbash.decode('test6');
 
 
 console.log('app is finished');
