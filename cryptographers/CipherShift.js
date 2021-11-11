@@ -1,8 +1,9 @@
 class CipherShift {
     constructor(alphabet, shift) {
         this.alphabet = alphabet;
+        this.alphabetLenght = this.alphabet.uppercase.length;
         this.shift = shift;
-        console.log(`init CipherShift shift = ${this.shift}`);
+        // console.log(`init CipherShift shift = ${this.shift}`);
     }
 
     encode(source) {
@@ -14,23 +15,25 @@ class CipherShift {
     }
 
     transformText(source, shift) {
-        console.log(`source = source ${source}`);
+        // console.log(`source = source ${source}`);
         const sourceArr = source.split('');
-        console.log(`sourceArr =  ${sourceArr}`);
+        // console.log(`sourceArr =  ${sourceArr}`);
 
-        const transformedArr = sourceArr.map((character, i, arr) => {
+        const transformedArr = sourceArr.map((character) => {
             const indexOfUpperCase = this.alphabet.uppercase.indexOf(character);
-            let calcTransformIndex = this.getTransformIndex(arr.length, shift, indexOfUpperCase);
+            let calcTransformIndex;
 
             if (indexOfUpperCase != -1) {
+                calcTransformIndex = this.getTransformIndex(this.alphabetLenght, shift, indexOfUpperCase);
                 return this.alphabet.uppercase[calcTransformIndex]
             }
             const indexOfLowerCase = this.alphabet.lowercase.indexOf(character);
             if (indexOfLowerCase != -1) {
+                calcTransformIndex = this.getTransformIndex(this.alphabetLenght, shift, indexOfLowerCase);
                 return this.alphabet.lowercase[calcTransformIndex]
             }
             return character;
-        }, '');
+        });
 
         return transformedArr.join('');
     }
@@ -46,7 +49,6 @@ class CipherShift {
             return i + shift;
         }
     }
-
 
 }
 
