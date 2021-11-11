@@ -16,58 +16,73 @@ const CryptographerRot8 = new CipherShift(alphabet, ROT8_SHIFT);
 const CryptographerAtbash = new CipherAtbash(alphabet);
 
 
+class ChainResult {
+    constructor(inputText) {
+        this.res = inputText;
+    }
 
-// tests
+    C1() {
+        this.res = CryptographerCaesar.encode(this.res);
+        return this;
+    }
 
-function C1(text) {
-    return CryptographerCaesar.encode(text);
-}
+    C0() {
+        this.res = CryptographerCaesar.decode(this.res);
+        return this;
+    }
 
-function C0(text) {
-    return CryptographerCaesar.decode(text);
-}
+    R1() {
+        this.res = CryptographerRot8.encode(this.res);
+        return this;
+    }
 
-function R1(text) {
-    return CryptographerRot8.encode(text);
-}
+    R0() {
+        this.res = CryptographerRot8.decode(this.res);
+        return this;
+    }
 
-function R0(text) {
-    return CryptographerRot8.decode(text);
-}
+    A() {
+        this.res = CryptographerAtbash.encode(this.res);
+        return this;
+    }
 
-function A(text) {
-    return CryptographerAtbash.encode(text);
 }
 
 function tests() {
     const inputText = 'This is secret. Message about "_" symbol!';
-    let expectedText, res;
+    let expectedText, res, chainResult;
 
     console.log('TEST1 ');
+    chainResult = new ChainResult(inputText);
     // C1-C1-R0-A
-    res = A(R0(C1(C1(inputText))));
+    res = chainResult.C1().C1().R0().A().res
+
     expectedText = `Myxn xn nbdobm. Tbnnfzb ferlm "_" nhteru!`;
     console.log(res === expectedText);
 
     console.log('TEST2 ');
+    chainResult = new ChainResult(inputText);
     // C1-C0-A-R1-R0-A-R0-R0-C1-A
-    res = A(C1(R0(R0(A(R0(R1(A(C0(C1(inputText))))))))));
+    res = chainResult.C1().C0().A().R1().R0().A().R0().R0().C1().A().res
+
     expectedText = `Vhgw gw wkmxkv. Ckwwoik onauv "_" wqcnad!`;
     console.log(res === expectedText);
 
     console.log('TEST3 ');
+    chainResult = new ChainResult(inputText);
     // A-A-A-R1-R0-R0-R0-C1-C1-A
-    res =A(C1(C1(R0(R0(R0(R1(A(A(A(inputText))))))))));
+    res = chainResult.A().A().A().R1().R0().R0().R0().C1().C1().A().res
     expectedText = `Hvwg wg gsqfsh. Asggous opcih "_" gmapcz!`;
     console.log(res === expectedText);
 
     console.log('TEST4 ');
     // C1-R1-C0-C0-A-R0-R1-R1-A-C1
-    res =C1(A(R1(R1(R0(A(C0(C0(R1(C1(inputText))))))))));
+    chainResult = new ChainResult(inputText);
+    res = chainResult.C1().R1().C0().C0().A().R0().R1().R1().A().C1().res
+
     expectedText = `Hvwg wg gsqfsh. Asggous opcih "_" gmapcz!`;
     console.log(res === inputText);
 
 }
 
 tests();
-
