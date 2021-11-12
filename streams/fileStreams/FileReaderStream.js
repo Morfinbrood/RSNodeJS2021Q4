@@ -10,7 +10,7 @@ class FileReaderStream extends Readable {
         this.chunkLength = chunkLength;
     }
     _construct(callback) {
-        fs.open(this.filename, (err, fd) => {
+        fs.open(this.filename, 'r', (err, fd) => {
             if (err) {
                 callback(err);
             } else {

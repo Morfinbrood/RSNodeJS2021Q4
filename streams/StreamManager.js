@@ -6,16 +6,28 @@ import FileWriterStream from './fileStreams/FileWriterStream.js'
 
 class StreamManager {
     constructor(fileInputPath, fileOutputPath, chunk) {
-        const fileReaderStream = new FileReaderStream(fileInputPath, chunk);
-        const fileWriterStream = new FileWriterStream(fileOutputPath);
         pipeline(
-            fileReaderStream,
-            //new FileTransformStream(chunk),
-            fileWriterStream,
+            new FileReaderStream(fileInputPath, chunk),
+            new FileTransformStream(),
+            new FileWriterStream(fileOutputPath),
             (error) => {
-                if (error) { /*  error handler */ }
+                if (error) {
+                    // TODO imlement errorHandler class
+                    switch (error.errno) {
+                        case -4058:
+                            console.log(`ERROR: no such file or directory, open ${error.path}`);
+                            process.exit(-1);
+                        case -4048:
+                            console.log('ERROR: no permissions to write file');
+                            process.exit(-1);
+                        default:
+                            console.log('ERROR: program terminated abnormally with unknown error');
+                            console.log(error);
+                            process.exit(-1);
+                    }
+                }
                 else {
-                    console.log('finished');
+                    console.log('program finished');
                 }
             }
         )
