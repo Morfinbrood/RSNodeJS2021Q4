@@ -3,7 +3,6 @@ class CipherShift {
         this.alphabet = alphabet;
         this.alphabetLenght = this.alphabet.uppercase.length;
         this.shift = shift;
-        // console.log(`init CipherShift shift = ${this.shift}`);
     }
 
     encode(source) {
@@ -15,9 +14,7 @@ class CipherShift {
     }
 
     transformText(source, shift) {
-        // console.log(`source = source ${source}`);
         const sourceArr = source.split('');
-        // console.log(`sourceArr =  ${sourceArr}`);
 
         const transformedArr = sourceArr.map((character) => {
             const indexOfUpperCase = this.alphabet.uppercase.indexOf(character);

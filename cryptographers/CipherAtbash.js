@@ -4,7 +4,6 @@ class CipherAtbash {
         this.reversedAlphabet = {};
         this.reversedAlphabet.uppercase = this.alphabet.uppercase.join('').split('').reverse();
         this.reversedAlphabet.lowercase = this.alphabet.lowercase.join('').split('').reverse();
-        // console.log(`init CipherAtbash alphabet`);
     }
 
     encode(source) {
@@ -16,17 +15,10 @@ class CipherAtbash {
     }
 
     transformText(source) {
-        // console.log(` transformText: source = source ${source}`);
         const sourceArr = source.split('');
-        // console.log(`sourceArr =  ${sourceArr}`);
-
-
-        // console.log(`reversedAlphabet =  ${this.reversedAlphabet.uppercase}`);
-
 
         const transformedArr = sourceArr.map((character) => {
             const indexOfUpperCase = this.alphabet.uppercase.indexOf(character);
-            // console.log(`indexOfUpperCase= ${indexOfUpperCase}`);
             if (indexOfUpperCase != -1) {
                 return this.reversedAlphabet.uppercase[indexOfUpperCase]
             }

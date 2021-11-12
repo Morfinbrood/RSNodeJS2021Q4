@@ -1,6 +1,6 @@
-import CipherShift from './Cryptographers/CipherShift.js';
+import CipherShift from './cryptographers/CipherShift.js';
 import CipherAtbash from './cryptographers/CipherAtbash.js';
-import { ALPHABET, CAESAR_SHIFT, ROT8_SHIFT } from './config.js'
+import { ALPHABET, CAESAR_SHIFT, ROT8_SHIFT } from './config.js';
 
 class ChainTransformer {
     constructor(inputText) {

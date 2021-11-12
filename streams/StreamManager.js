@@ -1,14 +1,29 @@
 import { pipeline } from 'stream';
-import FileReaderStream from './fileStreams/FileReaderStream.js'
-import FileTransformStream from './fileStreams/FileTransformStream.js'
-import FileWriterStream from './fileStreams/FileWriterStream.js'
+import FileReaderStream from './FileReaderStream.js';
+import TransformStream from './TransformStream.js';
+import FileWriterStream from './FileWriterStream.js';
+
+import CipherShift from '../cryptographers/CipherShift.js';
+import CipherAtbash from '../cryptographers/CipherAtbash.js';
+import { ALPHABET, CAESAR_SHIFT, ROT8_SHIFT } from '../config.js';
 
 
 class StreamManager {
-    constructor(fileInputPath, fileOutputPath, chunk) {
+    constructor(fileInputPath, fileOutputPath, chunkLength) {
+
+        const cryptographerCaesar = new CipherShift(ALPHABET, CAESAR_SHIFT);
+        const cryptographerRot8 = new CipherShift(ALPHABET, ROT8_SHIFT);
+        const cryptographerAtbash = new CipherAtbash(ALPHABET);
+
+        const transformStreams = [
+            new TransformStream({}, cryptographerCaesar.encode.bind(cryptographerCaesar)),
+            new TransformStream({}, cryptographerCaesar.encode.bind(cryptographerCaesar)),
+            new TransformStream({}, cryptographerRot8.decode.bind(cryptographerRot8)),
+            new TransformStream({}, cryptographerAtbash.encode.bind(cryptographerAtbash))
+        ];
         pipeline(
-            new FileReaderStream(fileInputPath, chunk),
-            new FileTransformStream(),
+            new FileReaderStream(fileInputPath, chunkLength),
+            ...transformStreams,
             new FileWriterStream(fileOutputPath),
             (error) => {
                 if (error) {
@@ -32,6 +47,7 @@ class StreamManager {
             }
         )
     }
+
 }
 
 export default StreamManager;
