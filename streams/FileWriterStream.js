@@ -17,7 +17,6 @@ class FileWriterStream extends Writable {
         });
     }
     _write(chunk, encoding, callback) {
-        console.log(` writing data = ${chunk}`);
         fs.write(this.fd, chunk, callback);
     }
     _destroy(err, callback) {

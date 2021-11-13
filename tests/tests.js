@@ -1,4 +1,4 @@
-import ChainTransformer from '../ChainTransformer.js'
+import ChainTransformer from './ChainTransformer.js';
 
 class Tests {
 

@@ -5,3 +5,6 @@ const json = require('./assets/alphabets.json');
 export const ALPHABET = json.en;
 export const CAESAR_SHIFT = 1;
 export const ROT8_SHIFT = 8;
+
+export const CONFIG_X_ARGS = ['C', 'R', 'A'];
+export const CONFIG_Y_ARGS = ['0', '1'];

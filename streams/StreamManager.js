@@ -5,7 +5,7 @@ import FileWriterStream from './FileWriterStream.js';
 
 import CipherShift from '../cryptographers/CipherShift.js';
 import CipherAtbash from '../cryptographers/CipherAtbash.js';
-import { ALPHABET, CAESAR_SHIFT, ROT8_SHIFT } from '../config.js';
+import { ALPHABET, CAESAR_SHIFT, ROT8_SHIFT } from '../const.js';
 
 
 class StreamManager {

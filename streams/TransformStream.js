@@ -8,9 +8,7 @@ class TransformStream extends Transform {
 
     _transform(chunk, encoding, callback) {
         try {
-            console.log(`TRANSFORMING chunk = ${chunk} with fn = ${this.transfromFn}`);
             const resultString = this.transfromFn(chunk.toString());
-            console.log(`TRANSFORMING result = ${resultString}`);
             callback(null, resultString);
         } catch (err) {
             callback(err);

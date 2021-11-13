@@ -22,7 +22,6 @@ class FileReaderStream extends Readable {
     _read() {
         const buf = Buffer.alloc(this.chunkLength);
         fs.read(this.fd, buf, 0, this.chunkLength, null, (err, bytesRead) => {
-            console.log(` reading data =  ${buf} `);
             if (err) {
                 this.destroy(err);
             } else {
