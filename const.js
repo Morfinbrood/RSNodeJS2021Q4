@@ -8,3 +8,5 @@ export const ROT8_SHIFT = 8;
 
 export const CONFIG_X_ARGS = ['C', 'R', 'A'];
 export const CONFIG_Y_ARGS = ['0', '1'];
+
+export const CHUNK_LENGTH = 10;

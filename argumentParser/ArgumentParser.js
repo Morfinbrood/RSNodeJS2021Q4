@@ -45,7 +45,7 @@ class ArgumentParser {
 
     static chkAndHandleDublicatedOption(option) {
         if (option) {
-            console.error(`option ${curArgument} is dublicated Programm Pls chk your config and try again`);
+            console.error(`option ${curArgument} is dublicated Programm finisher`);
             process.exit(-1);
         }
     }

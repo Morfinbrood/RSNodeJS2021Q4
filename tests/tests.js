@@ -40,3 +40,5 @@ class Tests {
     }
 }
 export default Tests;
+
+Tests.tests();

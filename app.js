@@ -1,34 +1,14 @@
-
-
-
-// tests 
-
-// import Tests from './tests/tests.js'
-
-// Tests.tests();
-
-
-// import StreamManager from './streams/StreamManager.js'
-
-// const fileInputPath = './input-output/input.txt';
-// const fileOutputPath = './input-output/output.txt';
-
-// new StreamManager(fileInputPath, fileOutputPath, 10);
-
-
-
-
-
-import ArgumentParser from './argumentParser/ArgumentParser.js'
+import ArgumentParser from './argumentParser/ArgumentParser.js';
+import StreamManager from './streams/StreamManager.js';
+import ConfigParser from './configParser.js';
+import { CHUNK_LENGTH } from './const.js';
 
 const argumentsCLI = ArgumentParser.getParsedArguments();
-console.log(` config =  ${argumentsCLI.config}`);
-console.log(` input =  ${argumentsCLI.input}`);
-console.log(` output =  ${argumentsCLI.output}`);
+const configTransformStreamsNames = ConfigParser.parseConfigToNameOfTransforms(argumentsCLI.config);
 
-import ConfigParser from './configParser.js';
-const transfromStreamArrOfNames = ConfigParser.parseConfigToNameOfTransforms(argumentsCLI.config);
+const fileInputPath = argumentsCLI.input;
+const fileOutputPath = argumentsCLI.output;
+const chunkLength = CHUNK_LENGTH;
+const streamManager = new StreamManager(fileInputPath, fileOutputPath, chunkLength, configTransformStreamsNames);
 
-console.log(`Config = ${transfromStreamArrOfNames}`);
-
-console.log(` chkConfigValid   ${ConfigParser.chkConfigValid(transfromStreamArrOfNames)}`);
+streamManager.run();
