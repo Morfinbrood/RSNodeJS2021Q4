@@ -10,17 +10,17 @@ import { ALPHABET, CAESAR_SHIFT, ROT8_SHIFT } from '../const.js';
 
 class StreamManager {
     constructor(fileInputPath, fileOutputPath, chunkLength, configTransformStreamsNames) {
-        this.configTransformStreamsNames = configTransformStreamsNames;
         this.inputStream;
         this.outputStream;
+        this.transformStreams;
+
         this.initInputStream(fileInputPath, chunkLength);
         this.initOutputStream(fileOutputPath, chunkLength);
         this.initCryptographersInstances();
+        this.initTransformStreamsByConfig(configTransformStreamsNames);
     }
 
     run() {
-
-        this.setConfigTransformStreams(this.configTransformStreamsNames);
         pipeline(
             this.inputStream,
             ...this.transformStreams,
@@ -48,8 +48,8 @@ class StreamManager {
         )
     }
 
-    setConfigTransformStreams() {
-        this.transformStreams = this.configTransformStreamsNames.map((streamName) => {
+    initTransformStreamsByConfig(configTransformStreamsNames) {
+        this.transformStreams = configTransformStreamsNames.map((streamName) => {
             switch (streamName) {
                 case 'C1':
                     return new TransformStream({}, this.cryptographerCaesar.encode.bind(this.cryptographerCaesar));
