@@ -1,9 +1,9 @@
-import ArgumentParser from './argumentParser/ArgumentParser.js';
+import ComandlineParser from './comandlineParser/ComandlineParser.js';
 import StreamManager from './streams/StreamManager.js';
 import ConfigParser from './configParser.js';
 import { CHUNK_LENGTH } from './const.js';
 
-const argumentsCLI = ArgumentParser.getParsedArguments();
+const argumentsCLI = ComandlineParser.getParsedArguments();
 const configTransformStreamsNames = ConfigParser.parseConfigToNameOfTransforms(argumentsCLI.config);
 
 const fileInputPath = argumentsCLI.input;

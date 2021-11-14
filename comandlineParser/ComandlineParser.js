@@ -1,6 +1,11 @@
-class ArgumentParser {
+class ComandlineParser {
 
     static getParsedArguments() {
+        if (process.argv.length === 0) {
+            console.error(`pls enter config`);
+            process.exit(-1);
+        }
+
         let options = {
             config: undefined,
             input: undefined,
@@ -15,18 +20,18 @@ class ArgumentParser {
             switch (curArgument) {
                 case '-c':
                 case '--config':
-                    ArgumentParser.chkAndHandleDublicatedOption(options.config);
-                    options.config = ArgumentParser.getValueOfMode(allCLIArguments, i);
+                    ComandlineParser.chkAndHandleDublicatedOption(options.config);
+                    options.config = ComandlineParser.getValueOfMode(allCLIArguments, i);
                     break;
                 case '-i':
                 case '--input':
-                    ArgumentParser.chkAndHandleDublicatedOption(options.input);
-                    options.input = ArgumentParser.getValueOfMode(allCLIArguments, i);
+                    ComandlineParser.chkAndHandleDublicatedOption(options.input);
+                    options.input = ComandlineParser.getValueOfMode(allCLIArguments, i);
                     break;
                 case '-o':
                 case '--output':
-                    ArgumentParser.chkAndHandleDublicatedOption(options.output);
-                    options.output = ArgumentParser.getValueOfMode(allCLIArguments, i);
+                    ComandlineParser.chkAndHandleDublicatedOption(options.output);
+                    options.output = ComandlineParser.getValueOfMode(allCLIArguments, i);
                     break;
                 default:
                     break;
@@ -50,8 +55,5 @@ class ArgumentParser {
         }
     }
 
-
-
-
 }
-export default ArgumentParser;
+export default ComandlineParser;
