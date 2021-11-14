@@ -1,5 +1,7 @@
 import { Writable } from 'stream';
 import fs from 'fs';
+import OutputError from '../Errors/OutputError.js'
+import ErrorHandler from '../Errors/ErrorHandler.js'
 
 class FileWriterStream extends Writable {
     constructor(filename) {
@@ -7,14 +9,18 @@ class FileWriterStream extends Writable {
         this.filename = filename;
     }
     _construct(callback) {
-        fs.open(this.filename, 'a+', (err, fd) => {
+        fs.access(this.filename, fs.F_OK, (err) => {
             if (err) {
-                callback(err);
-            } else {
+                if (err.errno === -4058)
+                    callback(new OutputError(`File does not exist ${err.path}`));
+                return;
+            }
+
+            fs.open(this.filename, 'a', (err, fd) => {
                 this.fd = fd;
                 callback();
-            }
-        });
+            });
+        })
     }
     _write(chunk, encoding, callback) {
         fs.write(this.fd, chunk, callback);

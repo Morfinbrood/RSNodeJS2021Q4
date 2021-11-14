@@ -1,6 +1,6 @@
-
 import { Readable } from 'stream';
 import fs from 'fs';
+import InputError from '../Errors/InputError.js'
 
 class FileReaderStream extends Readable {
     constructor(filename, chunkLength) {
@@ -12,7 +12,12 @@ class FileReaderStream extends Readable {
     _construct(callback) {
         fs.open(this.filename, 'r', (err, fd) => {
             if (err) {
-                callback(err);
+                if (err.errno === -4058) {
+                    callback(new InputError(`File does not exist ${err.path}`));
+                }
+                else {
+                    callback(err);
+                }
             } else {
                 this.fd = fd;
                 callback();

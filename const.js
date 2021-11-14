@@ -1,6 +1,6 @@
 import { createRequire } from "module";
 const require = createRequire(import.meta.url);
-const json = require('./assets/alphabets.json');
+const json = require('./app/assets/alphabets.json');
 
 export const ALPHABET = json.en;
 export const CAESAR_SHIFT = 1;

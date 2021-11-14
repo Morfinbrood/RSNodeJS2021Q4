@@ -2,11 +2,11 @@ import { pipeline } from 'stream';
 import FileReaderStream from './FileReaderStream.js';
 import TransformStream from './TransformStream.js';
 import FileWriterStream from './FileWriterStream.js';
-
 import CipherShift from '../cryptographers/CipherShift.js';
 import CipherAtbash from '../cryptographers/CipherAtbash.js';
-import { ALPHABET, CAESAR_SHIFT, ROT8_SHIFT } from '../const.js';
-
+import { ALPHABET, CAESAR_SHIFT, ROT8_SHIFT } from '../../const.js';
+import ConfigError from '../Errors/ConfigError.js';
+import ErrorHandler from '../Errors/ErrorHandler.js';
 
 class StreamManager {
     constructor(fileInputPath, fileOutputPath, chunkLength, configTransformStreamsNames) {
@@ -27,19 +27,7 @@ class StreamManager {
             this.outputStream,
             (error) => {
                 if (error) {
-                    // TODO imlement errorHandler class
-                    switch (error.errno) {
-                        case -4058:
-                            console.error(`ERROR: no such file or directory, open ${error.path}`);
-                            process.exit(-1);
-                        case -4048:
-                            console.error('ERROR: no permissions to write file');
-                            process.exit(-1);
-                        default:
-                            console.error('ERROR: program terminated abnormally with unknown error');
-                            console.error(error);
-                            process.exit(-1);
-                    }
+                    ErrorHandler.errorHandler(error);
                 }
                 else {
                     console.log('program finished');
@@ -62,8 +50,7 @@ class StreamManager {
                 case 'A':
                     return new TransformStream({}, this.cryptographerAtbash.encode.bind(this.cryptographerAtbash));
                 default:
-                    console.error(`Can't iniciate unkown transform stream  ${streamName} `);
-                    process.exit(-1);
+                    ErrorHandler.errorHandler(new ConfigError(`Can't iniciate unkown transform stream  ${streamName}`));
             }
         })
         return true;

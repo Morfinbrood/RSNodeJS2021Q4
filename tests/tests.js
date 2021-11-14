@@ -34,7 +34,6 @@ class Tests {
         chainResult = new ChainTransformer(inputText);
         res = chainResult.C1().R1().C0().C0().A().R0().R1().R1().A().C1().res
 
-        expectedText = `Hvwg wg gsqfsh. Asggous opcih "_" gmapcz!`;
         console.log(res === inputText);
 
     }
