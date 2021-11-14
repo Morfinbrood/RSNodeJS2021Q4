@@ -10,22 +10,21 @@ import { ALPHABET, CAESAR_SHIFT, ROT8_SHIFT } from '../const.js';
 
 class StreamManager {
     constructor(fileInputPath, fileOutputPath, chunkLength, configTransformStreamsNames) {
-        this.fileInputPath = fileInputPath;
-        this.fileOutputPath = fileOutputPath;
-        this.chunkLength = chunkLength;
         this.configTransformStreamsNames = configTransformStreamsNames;
-        this.cryptographerCaesar = new CipherShift(ALPHABET, CAESAR_SHIFT);
-        this.cryptographerRot8 = new CipherShift(ALPHABET, ROT8_SHIFT);
-        this.cryptographerAtbash = new CipherAtbash(ALPHABET);
+        this.inputStream;
+        this.outputStream;
+        this.initInputStream(fileInputPath, chunkLength);
+        this.initOutputStream(fileOutputPath, chunkLength);
+        this.initCryptographersInstances();
     }
 
     run() {
 
         this.setConfigTransformStreams(this.configTransformStreamsNames);
         pipeline(
-            new FileReaderStream(this.fileInputPath, this.chunkLength),
+            this.inputStream,
             ...this.transformStreams,
-            new FileWriterStream(this.fileOutputPath),
+            this.outputStream,
             (error) => {
                 if (error) {
                     // TODO imlement errorHandler class
@@ -69,6 +68,34 @@ class StreamManager {
         })
         return true;
     }
+
+    initInputStream(fileInputPath, chunkLength) {
+        if (fileInputPath) {
+            this.inputStream = new FileReaderStream(fileInputPath, chunkLength);
+        }
+        else {
+            this.inputStream = process.stdin;
+        }
+        return true;
+    }
+
+    initOutputStream(fileOutputPath, chunkLength) {
+        if (fileOutputPath) {
+            this.outputStream = new FileWriterStream(fileOutputPath, chunkLength);
+        }
+        else {
+            this.outputStream = process.stdout;
+        }
+        return true;
+    }
+
+    initCryptographersInstances() {
+        this.cryptographerCaesar = new CipherShift(ALPHABET, CAESAR_SHIFT);
+        this.cryptographerRot8 = new CipherShift(ALPHABET, ROT8_SHIFT);
+        this.cryptographerAtbash = new CipherAtbash(ALPHABET);
+        return true;
+    }
+
 }
 
 export default StreamManager;

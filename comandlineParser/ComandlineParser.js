@@ -1,8 +1,8 @@
 class ComandlineParser {
 
     static getParsedArguments() {
-        if (process.argv.length === 0) {
-            console.error(`pls enter config`);
+        if (process.argv.length === 2) {
+            console.error(`Null config is invalid: \n pls enter config and try again`);
             process.exit(-1);
         }
 
@@ -50,7 +50,7 @@ class ComandlineParser {
 
     static chkAndHandleDublicatedOption(option) {
         if (option) {
-            console.error(`option ${curArgument} is dublicated Programm finisher`);
+            console.error(`option ${curArgument} is dublicated Programm finished`);
             process.exit(-1);
         }
     }
